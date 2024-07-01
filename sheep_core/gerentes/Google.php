@@ -1,24 +1,6 @@
 <?php
-
-/**********************************************************************
- * ********************************************************************
- * GERENTE DE TAGS E GOOGLE FACEBOOK E OUTROS MAYKONSILVEIRA.COM.BR E MAYKON SILVEIRA
- * 
- * ********************************************************************
-* MAYKONSILVEIRA.COM.BR DEREICIONANDO VOCÊ PARA O CAMINHO DO SUCESSO #*
- * *************MAYKON***SILVEIRA**************************************
- * *************sheep**TECHNOLOGIES***********************************
- * ********************************************************************
- * TUDO AQUI FOI CRIADO NO DIA 28-09-2021 POR MAYKON SILVEIRA EAD 
- * TODOS OS DIREITOS RESERVADOS E CÓDIGO FONTE RASTREADO COM ARQUIVOS 
- * CRIADO POR MAYKONSILVEIRA.COM.BR DESDE 2007 *********
- * TODA SABEDORIA PARA CRIAR ESTES SISTEMAS VEM DO SANTO E ETERNOR PAI
- * O SANTO SENHOR DEUS DE ABRAÃO, ISSAC E JACÓ E DO MEU ÚNICO SENHOR 
- * O MESSIAS NOSSO SALVADOR, POIS A GLROIA É DO PAI E DO FILHO PARA SEMPRE
- * ********************************************************************
- * ********************************************************************
- */
-class Google {
+class Google
+{
 
     private $File;
     private $Link;
@@ -29,7 +11,8 @@ class Google {
     private $seoTags;
     private $seoData;
 
-    function __construct($File, $Link) {
+    function __construct($File, $Link)
+    {
         $this->File = strip_tags(trim($File));
         $this->Link = strip_tags(trim($Link));
     }
@@ -41,7 +24,8 @@ class Google {
      * <b>Deve ser usada com um ECHO dentro da tag HEAD!</b>
      * @return HTML TAGS =  Retorna todas as tags HEAD
      */
-    public function getTags() {
+    public function getTags()
+    {
         $this->checkData();
         return $this->seoTags;
     }
@@ -52,33 +36,30 @@ class Google {
      * 
      * @return ARRAY = Dados da tabela
      */
-    public function getData() {
+    public function getData()
+    {
         $this->checkData();
         return $this->seoData;
     }
 
-    /*
-     * ***************************************
-     * **********  PRIVATE METHODS  **********
-     * ***************************************
-     */
-
     //Verifica o resultset povoando os atributos
-    private function checkData() {
-        if (!$this->seoData):
+    private function checkData()
+    {
+        if (!$this->seoData) :
             $this->getSeo();
         endif;
     }
 
     //Identifica o arquivo e monta o SEO de acordo
-    private function getSeo() {
+    private function getSeo()
+    {
         $sheep = new Ler;
-        
-        switch ($this->File):
-            
 
-            //SEO:: POST
-            /**case 'noticia':
+        switch ($this->File):
+
+
+                //SEO:: POST
+                /**case 'noticia':
                 
                 $sheep ->FazLeitura("conteudo", "WHERE id = :link", "link={$this->Link}");
                 if (!$sheep ->getResultado()):
@@ -96,29 +77,30 @@ class Google {
                 endif;
                 break;**/
                 //SEO:: INDEX
-            //case 'sheep_painel':
-             //   $this->Data = ['Painel de Controle' . ' - '.GOOGLE_DESC, GOOGLE_TAGS, HOME, CAMINHO_TEMAS . SHEEP_IMG_LOGO];
-               // break;
-            
+                //case 'sheep_painel':
+                //   $this->Data = ['Painel de Controle' . ' - '.GOOGLE_DESC, GOOGLE_TAGS, HOME, CAMINHO_TEMAS . SHEEP_IMG_LOGO];
+                // break;
 
-            //SEO:: INDEX
+
+                //SEO:: INDEX
             case 'index':
-                $this->Data = [GOOGLE_TITULO . ' - '.GOOGLE_DESC, GOOGLE_TAGS, HOME, CAMINHO_TEMAS . SHEEP_IMG_LOGO];
-                
+                $this->Data = [GOOGLE_TITULO . ' - ' . GOOGLE_DESC, GOOGLE_TAGS, HOME, CAMINHO_TEMAS . SHEEP_IMG_LOGO];
 
-            //SEO:: 404
-            default :
+
+                //SEO:: 404
+            default:
                 $this->Data = [SITENAME . ' - 404 Oppsss, Nada encontrado!', SITEDESC, HOME . '/404', CAMINHO_TEMAS  . SHEEP_IMG_LOGO];
 
         endswitch;
 
-        if ($this->Data):
+        if ($this->Data) :
             $this->setTags();
         endif;
     }
 
     //Monta e limpa as tags para alimentar as tags
-    private function setTags() {
+    private function setTags()
+    {
         $this->Tags['Title'] = $this->Data[0];
         $this->Tags['Content'] = Formata::LimitaTextos(html_entity_decode($this->Data[1]), 45);
         $this->Tags['Link'] = $this->Data[2];
@@ -132,16 +114,16 @@ class Google {
         //NORMAL PAGE
         $this->seoTags = '<title>' . $this->Tags['Title'] . '</title> ' . "\n";
         $this->seoTags .= '<meta name="description" content="' . $this->Tags['Content'] . '"/>' . "\n";
-        $this->seoTags .= '<meta name="keywords" content="'.GOOGLE_DESC.'" />' . "\n";
+        $this->seoTags .= '<meta name="keywords" content="' . GOOGLE_DESC . '" />' . "\n";
         $this->seoTags .= '<meta name="robots" content="index, follow" />' . "\n";
-        $this->seoTags .= '<meta name=url content='.HOME.' />' . "\n";
+        $this->seoTags .= '<meta name=url content=' . HOME . ' />' . "\n";
         $this->seoTags .= '<meta name=author content="Webtec Technologies" />' . "\n";
-        $this->seoTags .= '<meta name=company content="'.SITENAME.'" />' . "\n";
+        $this->seoTags .= '<meta name=company content="' . SITENAME . '" />' . "\n";
         $this->seoTags .= '<meta name=revisit-after content="1 week" />' . "\n";
-        $this->seoTags .= '<meta name=reply-to content=mailto:'.EMAIL.' />' . "\n";
-        $this->seoTags .= '<meta name=copyright content="'.RODAPE.''.date("Y").'" />' . "\n";
+        $this->seoTags .= '<meta name=reply-to content=mailto:' . EMAIL . ' />' . "\n";
+        $this->seoTags .= '<meta name=copyright content="' . RODAPE . '' . date("Y") . '" />' . "\n";
         $this->seoTags .= '<meta name=made content=mailto:contato@webtecpr.com.br />' . "\n";
-        $this->seoTags .= '<meta name=google-site-verification content='.GOOGLE_VERIFY.' />' . "\n";
+        $this->seoTags .= '<meta name=google-site-verification content=' . GOOGLE_VERIFY . ' />' . "\n";
         $this->seoTags .= '<link rel="canonical" href="' . $this->Tags['Link'] . '">' . "\n";
         $this->seoTags .= "\n";
 
@@ -159,7 +141,7 @@ class Google {
         $this->seoTags .= '<meta property="fb:app_id" content="' . $this->Tags['Link'] . '" />' . "\n";
         $this->seoTags .= '<meta property="article:author" content="' . $this->Tags['Link'] . '" />' . "\n";
         $this->seoTags .= '<meta property="article:publisher" content="' . $this->Tags['Link'] . '" />' . "\n";
-        $this->seoTags .= '<meta name="author" content="'.SHEEP_IMG.'">' . "\n";
+        $this->seoTags .= '<meta name="author" content="' . SHEEP_IMG . '">' . "\n";
         $this->seoTags .= '<meta property="og:type" content="article" />' . "\n";
         $this->seoTags .= "\n";
 
@@ -171,5 +153,4 @@ class Google {
 
         $this->Tags = null;
     }
-
 }
